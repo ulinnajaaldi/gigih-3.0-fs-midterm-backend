@@ -41,9 +41,12 @@ exports.create = async (req, res) => {
   }
 };
 
-exports.findAllVideos = async (_, res) => {
+exports.findAllVideos = async (req, res) => {
   try {
-    const videos = await Videos.find();
+    const search = req.query.search;
+    const videos = await Videos.find(
+      search ? { title: { $regex: search, $options: "i" } } : {}
+    );
 
     if (videos.length === 0) {
       return res.status(404).json({ message: "No videos found" });
@@ -56,9 +59,10 @@ exports.findAllVideos = async (_, res) => {
     });
 
     res.status(200).json({
-      message: "Success finding all videos",
+      message: "Success finding videos",
       data: videos.map((item) => ({
         id: item.id,
+        userId: item.userId,
         userName: userMap[item.userId],
         title: item.title,
         url: item.url,
