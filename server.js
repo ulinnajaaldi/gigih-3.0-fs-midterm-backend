@@ -23,6 +23,7 @@ app.use(express.json());
 require("./app/routes/videos.routes")(app);
 require("./app/routes/products.routes")(app);
 require("./app/routes/users.routes")(app);
+require("./app/routes/comments.routes")(app);
 
 const port = process.env.PORT;
 app.listen(port, () => {
