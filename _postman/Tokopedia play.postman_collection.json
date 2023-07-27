@@ -1,0 +1,648 @@
+{
+	"info": {
+		"_postman_id": "1a13cde8-bb7d-4c5b-a6b0-592d75ca6f4c",
+		"name": "Tokopedia play",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23908007",
+		"_collection_link": "https://martian-station-384714.postman.co/workspace/Gigih-3.0~a2b269dc-d097-4ae6-9127-c086f1fe1cba/collection/23908007-1a13cde8-bb7d-4c5b-a6b0-592d75ca6f4c?action=share&creator=23908007&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullname\": \"John Doe\",\r\n    \"email\": \"johndoe@gmail.com\",\r\n    \"password\": \"johndoe@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Set token variable\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.environment.set(\"token\", jsonData.token);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"johndoe@gmail.com\",\r\n    \"password\": \"johndoe@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Restricted",
+			"item": [
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Get User",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/auth/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"auth",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fullname\": \"John Doe Edited\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/auth/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"auth",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/auth/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"auth",
+										"user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Videos",
+					"item": [
+						{
+							"name": "Create Video",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Mukbang Bersama-sama\",\r\n    \"url\": \"www.youtube.com\",\r\n    \"thumbnailUrl\": \"https://picsum.photos/seed/picsum/600/500\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/videos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"videos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Video",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Mukbang Berdua deh\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/videos/64c2c37852abe0c4a8be7eb5",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"videos",
+										"64c2c37852abe0c4a8be7eb5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Video",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Eiger New Brands\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/videos/64c2bc162fad36ac79f346a4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"videos",
+										"64c2bc162fad36ac79f346a4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Products",
+					"item": [
+						{
+							"name": "Add Product by VideoId",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Nasi Kotak\",\r\n    \"price\": 30000,\r\n    \"link\": \"https://www.tokopedia.com/nutrisari\",\r\n    \"imageUrl\": \"https://image.tokopedia.com/nutrisari\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/64c2bc162fad36ac79f346a4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"64c2bc162fad36ac79f346a4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Product by Id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Soda sangat gembira\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/64c2c606054295b5792014f4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"64c2c606054295b5792014f4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Product by Id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Nutrisari Enak sekali\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/64c2bddeeb771fb0425667d4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"64c2bddeeb771fb0425667d4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "## **Logged-in users can utilize this folder's API.**"
+		},
+		{
+			"name": "Public",
+			"item": [
+				{
+					"name": "Get User Details",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/user/64c2d192875c40cf16a9ade4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"user",
+								"64c2d192875c40cf16a9ade4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List Videos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/videos?search=Berdua",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"videos"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "Berdua"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Video by Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/videos/64c2ab61b48ef0e84c5bf509",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"videos",
+								"64c2ab61b48ef0e84c5bf509"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product List by VideoId",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/videos/64c2ab61b48ef0e84c5bf509",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"videos",
+								"64c2ab61b48ef0e84c5bf509"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Comment by VideoId",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Windah\",\r\n    \"comment\": \"Panggil aku bang\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/comments/64c2d1a5875c40cf16a9adec",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"comments",
+								"64c2d1a5875c40cf16a9adec"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Comments by VideoId",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/comments/64c2d1a5875c40cf16a9adec",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"comments",
+								"64c2d1a5875c40cf16a9adec"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
