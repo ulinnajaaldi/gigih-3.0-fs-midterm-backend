@@ -9,9 +9,11 @@ module.exports = (app) => {
 
   router.post("/auth/register", validateRegister, users.register);
   router.post("/auth/login", validateLogin, users.login);
+  router.post("/auth/refresh-token", users.refreshToken);
 
   router.get("/auth/user", authToken, users.getUser);
   router.put("/auth/user", authToken, users.updateUser);
+  router.patch("/auth/user", authToken, users.updateUser);
   router.delete("/auth/user", authToken, users.deleteUser);
   router.get("/user/:id", users.getUserDetails);
 

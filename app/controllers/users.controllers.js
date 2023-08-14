@@ -3,6 +3,8 @@ const Videos = require("../models/videos.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const JWT_SECRET = process.env.JWT_SECRET;
+
 exports.register = async (req, res) => {
   const { fullname, email, password } = req.body;
   try {
@@ -11,13 +13,13 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: "Email already exists" });
     }
 
-    const user = await Users.create({
+    await Users.create({
       fullname,
       email,
       password,
     });
 
-    res.status(201).json({ message: "User created", user });
+    res.status(201).json({ message: "User successfully registered" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -36,9 +38,31 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: "Password incorrect" });
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+    const access_token = jwt.sign({ id: user.id }, JWT_SECRET, {
+      expiresIn: "1d",
+    });
 
-    res.status(200).json({ message: "Login success", user, token });
+    const refresh_token = jwt.sign({ id: user.id }, JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    res
+      .status(200)
+      .json({ message: "Login success", access_token, refresh_token });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.refreshToken = async (req, res) => {
+  const { refresh_token } = req.body;
+  try {
+    const decoded = jwt.verify(refresh_token, JWT_SECRET);
+    const access_token = jwt.sign({ id: decoded.id }, JWT_SECRET, {
+      expiresIn: "20s",
+    });
+
+    res.status(200).json({ message: "Refresh token success", access_token });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -74,7 +98,7 @@ exports.getUserDetails = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const videos = await Videos.find({ userId });
+    const videos = await Videos.find({ userId }).sort({ createdAt: -1 });
 
     res.status(200).json({
       message: "Get user details success",
@@ -87,6 +111,7 @@ exports.getUserDetails = async (req, res) => {
           title: item.title,
           url: item.url,
           thumbnailUrl: item.thumbnailUrl,
+          totalProducts: item.products.length,
           createdAt: item.createdAt,
           updatedAt: item.updatedAt,
         })),
@@ -102,6 +127,11 @@ exports.deleteUser = async (req, res) => {
     const user = await Users.findByIdAndDelete(req.user.id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
+    }
+
+    const videos = await Videos.find({ userId: req.user.id });
+    if (videos.length > 0) {
+      await Videos.deleteMany({ userId: req.user.id });
     }
 
     res.status(200).json({ message: "Delete user success" });
