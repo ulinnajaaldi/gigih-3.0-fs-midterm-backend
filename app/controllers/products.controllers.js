@@ -48,11 +48,41 @@ exports.create = async (req, res) => {
 
 exports.getProductsByVideoId = async (req, res) => {
   try {
-    const videoId = req.params.id;
-    const products = await Products.find({ videoId });
+    const video = await Videos.findById(req.params.id);
+
+    if (!video) {
+      return res.status(404).json({ message: "Video not found" });
+    }
+
+    const products = await Products.find(req.params.videoId);
+
     res.status(200).json({
       message: "Success finding all products",
       data: products,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.getProductsById = async (req, res) => {
+  try {
+    const product = await Products.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.status(200).json({
+      message: "Success finding product",
+      data: {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        link: product.link,
+        imageUrl: product.imageUrl,
+        createdAt: product.createdAt,
+        updatedAt: product.updatedAt,
+      },
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
