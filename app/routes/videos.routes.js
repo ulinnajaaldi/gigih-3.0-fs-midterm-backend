@@ -8,6 +8,7 @@ module.exports = (app) => {
   router.get("/:id", videos.getVideoDetails);
   router.get("/", videos.findAllVideos);
   router.put("/:id", authToken, videos.updateVideo);
+  router.patch("/:id", authToken, videos.updateVideo);
   router.delete("/:id", authToken, videos.deleteVideo);
 
   app.use("/videos", router);
