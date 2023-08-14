@@ -56,7 +56,11 @@ exports.validateProduct = [
 
 exports.validateComment = [
   check("username").notEmpty().withMessage("Username is required"),
-  check("comment").notEmpty().withMessage("Comment is required"),
+  check("comment")
+    .notEmpty()
+    .withMessage("Comment is required")
+    .isLength({ max: 200 })
+    .withMessage("Comment must be less than 200 characters"),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
