@@ -20,6 +20,13 @@ exports.submit = async (req, res) => {
         createdAt: Comment.createdAt,
       },
     });
+
+    req.app.get("io").emit("new comment", {
+      id: Comment.id,
+      username: Comment.username,
+      comment: Comment.comment,
+      createdAt: Comment.createdAt,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
