@@ -1,6 +1,7 @@
 const Users = require("../models/users.model");
 const Videos = require("../models/videos.model");
 const Products = require("../models/products.model");
+const Comments = require("../models/comments.model");
 
 exports.create = async (req, res) => {
   const { title, url, thumbnailUrl } = req.body;
@@ -46,10 +47,10 @@ exports.findAllVideos = async (req, res) => {
     const search = req.query.search;
     const videos = await Videos.find(
       search ? { title: { $regex: search, $options: "i" } } : {}
-    );
+    ).sort({ createdAt: -1 });
 
     if (videos.length === 0) {
-      return res.status(404).json({ message: "No videos found" });
+      return res.status(200).json({ message: "Video not found", data: [] });
     }
 
     const users = await Users.find();
@@ -67,6 +68,7 @@ exports.findAllVideos = async (req, res) => {
         title: item.title,
         url: item.url,
         thumbnailUrl: item.thumbnailUrl,
+        totalProducts: item.products.length,
         createdAt: item.createdAt,
         updatedAt: item.updatedAt,
       })),
@@ -145,6 +147,16 @@ exports.deleteVideo = async (req, res) => {
     const video = await Videos.findByIdAndDelete(req.params.id);
     if (!video) {
       return res.status(404).json({ message: "Video not found" });
+    }
+
+    const comments = await Comments.find({ videoId: req.params.id });
+    if (comments.length > 0) {
+      await Comments.deleteMany({ videoId: req.params.id });
+    }
+
+    const products = await Products.find({ videoId: req.params.id });
+    if (products.length > 0) {
+      await Products.deleteMany({ videoId: req.params.id });
     }
 
     res.status(200).json({ message: "Delete video success" });
