@@ -21,7 +21,7 @@ exports.submit = async (req, res) => {
       },
     });
 
-    req.app.get("io").emit("new comment", {
+    req.app.get("channel").publish("new comment", {
       id: Comment.id,
       username: Comment.username,
       comment: Comment.comment,

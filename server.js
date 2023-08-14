@@ -17,21 +17,16 @@ db.once("connected", () => console.log("Connected to Database"));
 
 const app = express();
 const server = http.createServer(app);
-const io = require("socket.io")(server, {
-  cors: {
-    origin: "*",
-  },
+const Ably = require("ably");
+const realtime = new Ably.Realtime(process.env.ABLY_API_KEY);
+
+realtime.connection.on("connected", () => {
+  console.log("Connected to Ably!");
 });
 
-io.on("connection", (socket) => {
-  console.log("a user connected");
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-    socket.disconnect();
-  });
-});
+const channel = realtime.channels.get("comments");
 
-app.set("io", io);
+app.set("channel", channel);
 
 const corsOptions = {
   origin: "*",
