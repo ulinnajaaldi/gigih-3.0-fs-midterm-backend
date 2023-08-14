@@ -86,10 +86,17 @@ exports.getVideoDetails = async (req, res) => {
       return res.status(404).json({ message: "Video not found" });
     }
 
+    const user = await Users.findById(video.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     res.status(200).json({
       message: "Get video details success",
       data: {
         id: video.id,
+        userId: video.userId,
+        userName: user.fullname,
         title: video.title,
         url: video.url,
         thumbnailUrl: video.thumbnailUrl,
