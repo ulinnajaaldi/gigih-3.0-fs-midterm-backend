@@ -1,15 +1,15 @@
 # Backend RESTful API Tokopedia Play Clone
-
-<center>
-<img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="Mongo DB" />
-<img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" alt="Mongo DB" />
-<img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Mongo DB" />
-</center>
-
-API Deployed at [Vercel](https://api-ulinnaja-gigih-midterm.vercel.app/)
-
 This is the submission for the fullstack final project [#GenerasiGigih3.0](https://www.anakbangsabisa.org/generasi-gigih/)
 
+ [Live API](https://api-ulinnaja-gigih-midterm.vercel.app/)
+
+## Built With 🛠
+- [Node.js](https://nodejs.org/en/) - JavaScript runtime environment
+- [Express.js](https://expressjs.com/) - Node.js web application framework
+- [MongoDB](https://www.mongodb.com/) - NoSQL database
+- [Mongoose](https://mongoosejs.com/) - MongoDB object modeling for Node.js
+- [Ably](https://ably.com/) - Realtime messaging service
+- [JWT](https://jwt.io/) - JSON Web Token
 
 ## Table of Contents 🎯
 
