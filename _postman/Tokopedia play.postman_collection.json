@@ -4,7 +4,7 @@
 		"name": "Tokopedia play",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "23908007",
-		"_collection_link": "https://martian-station-384714.postman.co/workspace/Gigih-3.0~a2b269dc-d097-4ae6-9127-c086f1fe1cba/collection/23908007-1a13cde8-bb7d-4c5b-a6b0-592d75ca6f4c?action=share&creator=23908007&source=collection_link"
+		"_collection_link": "https://martian-station-384714.postman.co/workspace/Gigih-3.0~a2b269dc-d097-4ae6-9127-c086f1fe1cba/collection/23908007-1a13cde8-bb7d-4c5b-a6b0-592d75ca6f4c?action=share&source=collection_link&creator=23908007"
 	},
 	"item": [
 		{
@@ -46,7 +46,7 @@
 								"exec": [
 									"pm.test(\"Set token variable\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.environment.set(\"token\", jsonData.token);\r",
+									"    pm.environment.set(\"access_token\", jsonData.access_token);\r",
 									"});\r",
 									""
 								],
@@ -59,7 +59,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"johndoe@gmail.com\",\r\n    \"password\": \"johndoe@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"email\": \"ulinnajaaldi24@gmail.com\",\r\n    \"password\": \"ulinnajaaldi24@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -74,6 +74,44 @@
 							"path": [
 								"auth",
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZDhkNTMzZWMxNmJjM2Q5NTQxYWJjYSIsImlhdCI6MTY5MjAzNTAxMywiZXhwIjoxNjkyNjM5ODEzfQ.gmaR9-HkCgrtXvBPENr9VrCfPPS372lDJjw0QkSyCbY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/refresh-token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"refresh-token"
 							]
 						}
 					},
@@ -98,7 +136,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token}}",
+											"value": "{{access_token}}",
 											"type": "string"
 										}
 									]
@@ -115,12 +153,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5000/auth/user",
-									"protocol": "http",
+									"raw": "{{baseUrl}}/auth/user",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"auth",
 										"user"
@@ -137,7 +173,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token}}",
+											"value": "{{access_token}}",
 											"type": "string"
 										}
 									]
@@ -146,7 +182,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"fullname\": \"John Doe Edited\"\r\n}",
+									"raw": "{\r\n    \"fullname\": \"Ulinnaja Aldi\",\r\n    \"email\": \"ulinnajaaldi24@gmail.com\",\r\n    \"password\": \"\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -154,12 +190,47 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5000/auth/user",
-									"protocol": "http",
+									"raw": "{{baseUrl}}/auth/user",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
+									"path": [
+										"auth",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"ramanatha@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/auth/user",
+									"host": [
+										"{{baseUrl}}"
+									],
 									"path": [
 										"auth",
 										"user"
@@ -193,12 +264,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5000/auth/user",
-									"protocol": "http",
+									"raw": "{{baseUrl}}/auth/user",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"auth",
 										"user"
@@ -220,7 +289,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token}}",
+											"value": "{{access_token}}",
 											"type": "string"
 										}
 									]
@@ -229,7 +298,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"title\": \"Mukbang Bersama-sama\",\r\n    \"url\": \"www.youtube.com\",\r\n    \"thumbnailUrl\": \"https://picsum.photos/seed/picsum/600/500\"\r\n}",
+									"raw": "{\r\n    \"title\": \"Mukbang Bersama-samaa\",\r\n    \"url\": \"https://www.youtube.com/watch?v=0oiFKDiw3uc\",\r\n    \"thumbnailUrl\": \"https://i.ytimg.com/vi/0oiFKDiw3uc/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAsGtVNlJlnac7fzldd_xnmUaC7Hg\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -256,7 +325,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token}}",
+											"value": "{{access_token}}",
 											"type": "string"
 										}
 									]
@@ -265,7 +334,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"title\": \"Mukbang Berdua deh\"\r\n}",
+									"raw": "{\r\n    \"title\": \"JKT48 - Seventeen (cover)\",\r\n    \"url\": \"https://www.youtube.com/watch?v=0oiFKDiw3uc\",\r\n    \"thumbnailUrl\": \"https://i.ytimg.com/vi/0oiFKDiw3uc/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAsGtVNlJlnac7fzldd_xnmUaC7Hg\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -273,13 +342,50 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/videos/64c2c37852abe0c4a8be7eb5",
+									"raw": "{{baseUrl}}/videos/64d3a3f4e22341d236b0cd99",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"videos",
-										"64c2c37852abe0c4a8be7eb5"
+										"64d3a3f4e22341d236b0cd99"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Video",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"JKT48 - Seventeen (cover)\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/videos/64d3a3f4e22341d236b0cd99",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"videos",
+										"64d3a3f4e22341d236b0cd99"
 									]
 								}
 							},
@@ -293,7 +399,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token}}",
+											"value": "{{access_token}}",
 											"type": "string"
 										}
 									]
@@ -302,7 +408,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"title\": \"Eiger New Brands\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -310,13 +416,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/videos/64c2bc162fad36ac79f346a4",
+									"raw": "{{baseUrl}}/videos/64d779665defa27fdb3db26a",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"videos",
-										"64c2bc162fad36ac79f346a4"
+										"64d779665defa27fdb3db26a"
 									]
 								}
 							},
@@ -335,7 +441,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token}}",
+											"value": "{{access_token}}",
 											"type": "string"
 										}
 									]
@@ -344,7 +450,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"title\": \"Nasi Kotak\",\r\n    \"price\": 30000,\r\n    \"link\": \"https://www.tokopedia.com/nutrisari\",\r\n    \"imageUrl\": \"https://image.tokopedia.com/nutrisari\"\r\n}",
+									"raw": "{\r\n    \"title\": \"Yamaha Acoustic Guitar F400 / F-400 / F 400 - Natural\",\r\n    \"price\": 1314400,\r\n    \"link\": \"https://www.tokopedia.com/nuansamusik/yamaha-acoustic-guitar-f400-f-400-f-400-natural\",\r\n    \"imageUrl\": \"https://images.tokopedia.net/img/cache/700/VqbcmM/2022/4/7/5c3ca792-875b-404a-b4d2-5ad2ce7081b0.jpg\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -352,13 +458,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/products/64c2bc162fad36ac79f346a4",
+									"raw": "{{baseUrl}}/products/64d74c42462a49760e3478c2",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"products",
-										"64c2bc162fad36ac79f346a4"
+										"64d74c42462a49760e3478c2"
 									]
 								}
 							},
@@ -372,7 +478,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token}}",
+											"value": "{{access_token}}",
 											"type": "string"
 										}
 									]
@@ -381,7 +487,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"title\": \"Soda sangat gembira\"\r\n}",
+									"raw": "{\r\n    \"title\": \"Yamaha Acoustic Guitar F400 / F-400 / F 400 - Natural\",\r\n    \"price\": 1314400,\r\n    \"link\": \"https://www.tokopedia.com/nuansamusik/yamaha-acoustic-guitar-f400-f-400-f-400-natural\",\r\n    \"imageUrl\": \"https://images.tokopedia.net/img/cache/700/VqbcmM/2022/4/7/5c3ca792-875b-404a-b4d2-5ad2ce7081b0.jpg\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -402,6 +508,43 @@
 							"response": []
 						},
 						{
+							"name": "Update Product by Id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Nutrisari Enak sekali\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/64c2bddeeb771fb0425667d4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"64c2bddeeb771fb0425667d4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Delete Product by Id",
 							"request": {
 								"auth": {
@@ -409,7 +552,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{token}}",
+											"value": "{{access_token}}",
 											"type": "string"
 										}
 									]
@@ -467,15 +610,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/user/64c2d192875c40cf16a9ade4",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/user/64d7633b5defa27fdb3db1e8",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"user",
-								"64c2d192875c40cf16a9ade4"
+								"64d7633b5defa27fdb3db1e8"
 							]
 						}
 					},
@@ -502,7 +643,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/videos?search=Berdua",
+							"raw": "{{baseUrl}}/videos",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -512,7 +653,8 @@
 							"query": [
 								{
 									"key": "search",
-									"value": "Berdua"
+									"value": "Berdua",
+									"disabled": true
 								}
 							]
 						}
@@ -540,13 +682,46 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/videos/64c2ab61b48ef0e84c5bf509",
+							"raw": "{{baseUrl}}/videos/64da70f5caf5f14a92e96f9e",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"videos",
-								"64c2ab61b48ef0e84c5bf509"
+								"64da70f5caf5f14a92e96f9e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/64da8c35d71d8512d20edf3f",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"64da8c35d71d8512d20edf3f"
 							]
 						}
 					},
@@ -573,13 +748,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/videos/64c2ab61b48ef0e84c5bf509",
+							"raw": "{{baseUrl}}/products/video/64da70f5caf5f14a92e96f9e",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"videos",
-								"64c2ab61b48ef0e84c5bf509"
+								"products",
+								"video",
+								"64da70f5caf5f14a92e96f9e"
 							]
 						}
 					},
@@ -630,13 +806,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/comments/64c2d1a5875c40cf16a9adec",
+							"raw": "{{baseUrl}}/comments/64d9deec515ce22fefcf6767",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"comments",
-								"64c2d1a5875c40cf16a9adec"
+								"64d9deec515ce22fefcf6767"
 							]
 						}
 					},
